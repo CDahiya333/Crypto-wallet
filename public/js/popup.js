@@ -7,7 +7,7 @@ const settings={
 };
 const alchemy = new Alchemy(settings);
 alchemy.core.getBlock(15221026).then(console.log);
-
+//Adding Event listners to all Classes and Buttons
 document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("accountList")
@@ -72,10 +72,14 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", addAcount);
 });
 
-let providerURL = new ethers.providers.AlchemyProvider(
-  "matic-amoy", // Corresponding ethers network
-  process.env.POLYGON_AMOY // API Key
-);
+let providerURL =
+  "https://polygon-amoy.g.alchemy.com/v2/K0rFZu-AgN35_TUvkL4kDo3snrMrxSYd";
+
+// let providerURL = new ethers.providers.AlchemyProvider(
+//   "matic-amoy", // Corresponding ethers network
+//   process.env.POLYGON_AMOY // API Key
+// );
+// HardCoded Token Data for Testing
 const allToken = [
   {
     name: "MATIC",
@@ -83,7 +87,7 @@ const allToken = [
     symbol: "MATIC",
   },
   {
-    name: "@theblockchaincoders",
+    name: "@theCryptoWallet",
     address: "0xb309098bcB51E5C687a16FA41bD6055f47c9eBb0",
     symbol: "TBC",
   },
@@ -98,8 +102,8 @@ let address;
   const amount = document.getElementById("amount").value;
   const address = document.getElementById("address").value;
 
-  // p = "f2211d726b37710b750fa80da41f73172853fa2ac82181aca2ff4233e3c6ce9f";
-  // a = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+  let private_Key="3cd8d9783d6d127567c6fbf1e578ca6be8b9b030e5da58def89200601db68595";
+  let test_account = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 
   //PROVIDER
   const provider = new ethers.providers.JsonRpcProvider(providerURL);
@@ -112,7 +116,7 @@ let address;
   };
 
   var a = document.getElementById("link");
-  a.href = "somelink url";
+  a.href = "Transaction link on Chain ";
 
   wallet.sendTransaction(tx).then((txObj) => {
     console.log("txHash", txObj.hash);
@@ -124,7 +128,8 @@ let address;
 }
 
  function checkBalance(address) {
-
+  //PROVIDER
+  const provider = new ethers.providers.JsonRpcProvider(providerURL);
   provider.getBalance(address).then((balance) => {
     const balanceInEth = ethers.utils.formatEther(balance);
 
@@ -150,14 +155,10 @@ let address;
 
   if (e.target.innerHTML === "Ethereum Mainnet") {
     providerURL =
-      "https://eth-mainnet.g.alchemy.com/v2/-2C_9gpIqlhGwXCCU3W6iQU7_i-FRbov";
+      "https://eth-mainnet.g.alchemy.com/v2/K0rFZu-AgN35_TUvkL4kDo3snrMrxSYd";
     document.getElementById("network").style.display = "none";
   } else if (e.target.innerHTML === "Polygon Mainnet") {
-    providerURL = "https://polygon-mainnet.g.alchemy.com/v2/K0rFZu-AgN35_TUvkL4kDo3snrMrxSYd";
-    document.getElementById("network").style.display = "none";
-  } else if (e.target.innerHTML === "Polygon Mumbai") {
-    providerURL =
-      "https://polygon-mumbai.g.alchemy.com/v2/0awa485pp03Dww2fTjrSCg7yHlZECw-K";
+    providerURL = "https://rpc.ankr.com/polygon";
     document.getElementById("network").style.display = "none";
   } else if (e.target.innerHTML === "Goerli test network") {
     providerURL =

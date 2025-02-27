@@ -30,9 +30,9 @@ const userSchema = new mongoose.Schema({
   private_key: String,
   mnemonic: String,
 });
-
+// PassWord ReHash MiddleWare
 userSchema.pre("save", async function (next) {
-  // Only run this function if password was actually modified
+  // If the Password was Modified
   if (!this.isModified("password")) return next();
 
   // Hash the password with cost of 12
@@ -42,16 +42,15 @@ userSchema.pre("save", async function (next) {
   this.passwordConfirm = undefined;
   next();
 });
-
+// New User
 userSchema.pre("save", function (next) {
-  //Checking if either password was changed or new User 
   if (!this.isModified("password") || this.isNew) return next();
 
   //PassWord Change Timestamp
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
-
+// Query optimization
 userSchema.pre(/^find/, function (next) {
   // this points to the current query filtering inactive users
   this.find({ active: { $ne: false } });
@@ -73,7 +72,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
       this.passwordChangedAt.getTime() / 1000,
       10
     );
-
+    // Password was Tampered
     return JWTTimestamp < changedTimestamp;
   }
 

@@ -3,12 +3,13 @@ import User from '../Model/userModel.js';
 import Token from '../Model/tokenModel.js';
 import Account from '../Model/accountModel.js';
 
-// HelperFunctions from signing and CreatingTokens
+// Helper function with id as PayLoad
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
+// Helper function for Sending Token Cookie
 const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
@@ -33,10 +34,7 @@ const createSendToken = (user, statusCode, req, res) => {
 };
 
 
-
-
-
-//UserRouters
+// USER ROUTES
 // Sign up handler
 export const signUp = async (req, res, next) => {
   const newUser = await User.create({
@@ -78,10 +76,7 @@ export const login = async (req, res, next) => {
 };
 
 
-
-
-
-// Token Routes
+// TOKEN ROUTES
 // Get all tokens
 export const allToken = async (req, res, next) => {
   const tokens = await Token.find();
@@ -113,10 +108,7 @@ export const addToken = async (req, res, next) => {
 };
 
 
-
-
-
-//Account Routes
+// ACCOUNT ROUTES
 // Get all accounts
 export const allAccount = async (req, res, next) => {
   const accounts = await Account.find();
